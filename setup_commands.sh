@@ -657,6 +657,8 @@ sudo cp "$LATEST_KERNEL" /mnt/nvme_boot/vmlinuz
 LATEST_INITRD=$(ls -v /mnt/nvme_root/boot/initrd.img-* | tail -n 1)
 sudo cp "$LATEST_INITRD" /mnt/nvme_boot/initrd.img
 
+# Check if dm.crypt present
+lsinitramfs /mnt/test_boot/initrd.img | grep dm.crypt
 
 ## Enable TRIM
 sudo systemctl enable fstrim.timer
