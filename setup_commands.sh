@@ -616,8 +616,29 @@ echo "sha256" >> /etc/initramfs-tools/modules
 cp /boot/firmware/luks-keyfile /boot/luks-keyfile
 chmod 400 /boot/luks-keyfile
 
+
+
+# Check dm_crypt in modules list
+grep -r "dm.crypt\|dm-crypt" /etc/initramfs-tools/modules
+
+# If absent:
+echo "dm_crypt" >> /etc/initramfs-tools/modules
+echo "dm-mod" >> /etc/initramfs-tools/modules
+
+# Check modules crypto
+grep -E "^(aes|sha256)" /etc/initramfs-tools/modules
+
+# If absent:
+echo "aes" >> /etc/initramfs-tools/modules
+echo "sha256" >> /etc/initramfs-tools/modules
+
+
+
 # Regenerate initramfs with crypttab + keyfile
 update-initramfs -u -k all
+
+# Check success
+ls -lh /boot/initrd.img-*
 
 # Enable BTRFS subvolume mount units
 systemctl enable mnt-data-archives.mount
