@@ -372,15 +372,11 @@ sudo rsync -axHAWX --info=progress2 \
   /var/lib/containers/ /mnt/nvme_containers/
 
 ## Configure cmdline.txt
-
-sudo nano /mnt/nvme_boot/cmdline.txt
-
-# Content (single line):
-```
+sudo tee /mnt/nvme_boot/cmdline.txt > /dev/null <<EOF
 console=serial0,115200 multipath=off dwc_otg.lpm_enable=0 console=tty1 root=LABEL=ROOT rootfstype=ext4 rootwait fixrtc cfg80211.ieee80211_regdom=JP
-```
+EOF
 
-# Verify:
+# Verify single line:
 wc -l /mnt/nvme_boot/cmdline.txt  # Should output: 1
 
 ## Configure /etc/fstab
@@ -482,25 +478,19 @@ cryptdata UUID=$(sudo blkid -s UUID -o value /dev/nvme0n1p5) /boot/luks-keyfile 
 EOF
 
 ## Update EEPROM
-sudo rpi-eeprom-config --edit
-
-# Add:
-```
+sudo tee rpi-eeprom-config > /dev/null <<EOF
 [all]
 BOOT_UART=0
 POWER_OFF_ON_HALT=0
 BOOT_ORDER=0xf641
 PCIE_PROBE=1
-```
+EOF
 
 # Apply:
 sudo rpi-eeprom-update -a
 
 ## Configure config.txt
-sudo nano /mnt/nvme_boot/config.txt
-
-# Ensure these lines exist:
-```
+sudo tee /mnt/nvme_boot/config.txt > /dev/null <<EOF
 [all]
 dtparam=pciex1_gen=3
 arm_64bit=1
@@ -508,9 +498,11 @@ kernel=vmlinuz
 cmdline=cmdline.txt
 initramfs initrd.img followkernel
 
+...
+
 [pi5]
 dtparam=pciex1
-```
+EOF
 
 ## Update system (chroot)
 # Fix resolv.conf (DNS)
