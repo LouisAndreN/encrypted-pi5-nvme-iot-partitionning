@@ -1,7 +1,7 @@
 # Pi 5 NVMe 1To Setup - Command Reference for Ubuntu Server 24.04.3 LTS boot
 
 # Install needed packages
-sudo apt update
+sudo apt update && sudo apt upgrade -y
 sudo apt install -y lvm2 cryptsetup btrfs-progs xfsprogs parted rsync unzip curl
 
 ## Prerequisites Check
