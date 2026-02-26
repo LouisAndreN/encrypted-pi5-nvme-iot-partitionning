@@ -566,6 +566,7 @@ dtoverlay=dwc2,dr_mode=host
 
 [pi5]
 dtparam=pciex1
+dtparam=pciex1_gen=3
 
 
 [all]
