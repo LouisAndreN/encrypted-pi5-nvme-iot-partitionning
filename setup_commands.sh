@@ -180,7 +180,7 @@ sudo btrfs check --readonly /dev/vg-main/lv-data
 
 
 ## Save UUIDs and LUKS mapper
-mkdir -p ~/nvme-setup
+sudo mkdir -p ~/nvme-setup
 
 BOOT_UUID=$(sudo blkid -s UUID -o value /dev/nvme0n1p1)
 ROOT_UUID=$(sudo blkid -s UUID -o value /dev/nvme0n1p2)
@@ -198,7 +198,7 @@ CLOUDSYNC_UUID=$(sudo blkid -s UUID -o value /dev/vg-main/lv-cloud-sync)
 SCRATCH_UUID=$(sudo blkid -s UUID -o value /dev/vg-main/lv-scratch)
 DATA_UUID=$(sudo blkid -s UUID -o value /dev/vg-main/lv-data)
 
-cat > ~/nvme-setup/uuids.txt <<EOF
+sudo cat > ~/nvme-setup/uuids.txt <<EOF
 BOOT_UUID=$BOOT_UUID
 ROOT_UUID=$ROOT_UUID
 SWAP_UUID=$SWAP_UUID
@@ -215,7 +215,7 @@ SCRATCH_UUID=$SCRATCH_UUID
 DATA_UUID=$DATA_UUID
 EOF
 
-cat ~/nvme-setup/uuids.txt
+sudo cat ~/nvme-setup/uuids.txt
 
 ## Mount all
 
