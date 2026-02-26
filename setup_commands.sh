@@ -356,6 +356,7 @@ sudo du -sh /mnt/nvme_root/
 sudo mkdir -p /mnt/nvme_root/{boot/firmware,proc,sys,dev,run,tmp,mnt,media}
 sudo mkdir -p /mnt/nvme_root/mnt/{ml-models,ml-cache,cloud-sync,scratch,data}
 sudo mkdir -p /mnt/nvme_root/var/lib/containers
+sudo mkdir -p /mnt/nvme_root/recovery
 
 
 # Copy /var (exclude containers)
@@ -402,7 +403,7 @@ UUID=$RECOVERY_UUID   /recovery               ext4    defaults,noatime          
 /dev/vg-main/lv-ml-models /mnt/ml-models          xfs     defaults,noatime,allocsize=16m  0 2
 /dev/vg-main/lv-ml-cache  /mnt/ml-cache           xfs     defaults,noatime,allocsize=16m  0 2
 /dev/vg-main/lv-cloud-sync /mnt/cloud-sync        xfs     defaults,noatime,allocsize=64m,inode64  0 2
-/dev/vg-main/lv-scratch   /mnt/scratch            xfs     defaults,noatime,allocsize=16m,nobarrier,logbsize=256k  0 2
+/dev/vg-main/lv-scratch   /mnt/scratch            xfs     defaults,noatime,allocsize=16m,logbsize=256k  0 2
 /dev/vg-main/lv-data      /mnt/data               btrfs   defaults,noatime,compress=zstd:3,space_cache=v2,subvol=@iot-hot  0 2
 
 tmpfs                     /tmp                    tmpfs   defaults,noatime,nosuid,nodev,size=2G  0 0
@@ -549,6 +550,7 @@ ls -l /boot/firmware/luks-keyfile
 apt update
 apt full-upgrade -y
 apt install linux-raspi linux-image-raspi linux-headers-raspi linux-firmware-raspi -y
+apt install -y cryptsetup-initramfs
 
 
 # Install zram generator
