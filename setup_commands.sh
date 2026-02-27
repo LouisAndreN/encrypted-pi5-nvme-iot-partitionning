@@ -595,6 +595,9 @@ sudo mount --make-rslave /mnt/nvme_root/sys
 sudo mount --rbind /run /mnt/nvme_root/run
 sudo mount --make-rslave /mnt/nvme_root/run
 
+sudo chmod 1777 /mnt/nvme_root/tmp
+sudo mount -t tmpfs tmpfs /mnt/nvme_root/tmp
+
 # Enter chroot
 sudo chroot /mnt/nvme_root /bin/bash
 
