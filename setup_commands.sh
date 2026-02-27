@@ -391,7 +391,7 @@ source ~/nvme-setup/uuids.txt
 sudo tee /mnt/nvme_root/etc/fstab > /dev/null <<EOF
 UUID=$BOOT_UUID       /boot/firmware          vfat    defaults                          0 2
 UUID=$ROOT_UUID       /                       ext4    defaults,noatime                  0 1
-UUID=$SWAP_UUID       none                    swap    sw,pri=-2                         0 0
+/dev/mapper/swap      none                    swap    sw,pri=-2                         0 0
 UUID=$RECOVERY_UUID   /recovery               ext4    defaults,noatime                  0 2
 
 /dev/vg-main/lv-var       /var                    ext4    defaults,noatime,nodiratime       0 2
