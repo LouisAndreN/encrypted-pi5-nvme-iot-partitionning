@@ -79,15 +79,14 @@ sudo mkfs.ext4 -L RECOVERY /dev/nvme0n1p4
 #   - PBKDF: Argon2id (GPU-resistant)
 #   - Sector size: 4096 bytes (NVMe native) (better performance but compatible only with kernel 5.9+)
 #   - Iteration time: 2000ms (fast boot)
-sudo cryptsetup luksFormat /dev/nvme0n1p5 --type luks2 --cipher aes-xts-plain64 --key-size 512 --pbkdf argon2id --iter-time 2000 --label "cryptdata"
+sudo cryptsetup luksFormat /dev/nvme0n1p5 --type luks2 --cipher aes-xts-plain64 --key-size 512 --pbkdf argon2id --iter-time 2000 --sector-size 4096 --label "cryptdata"
 # Choose very strong passphrase and save it !
 
 # Verification : PBKDF: argon2id, Time cost, Memory, Threads, Cipher, Payload Sector size=4096 (=> check if alignment error but okay if 1MiB aligned)
 sudo cryptsetup luksDump /dev/nvme0n1p5
 
 # Backup LUKS header
-sudo cryptsetup luksHeaderBackup /dev/nvme0n1p5 \
-    --header-backup-file /tmp/luks-header-backup.img
+sudo cryptsetup luksHeaderBackup /dev/nvme0n1p5 --header-backup-file /tmp/luks-header-backup.img
 
 # Copy to /recovery (once mounted)
 sudo mkdir -p /mnt/nvme_recovery
@@ -255,8 +254,7 @@ if [ -f /boot/luks-keyfile ]; then
     cryptsetup open /dev/nvme0n1p5 cryptdata --key-file /boot/luks-keyfile
 else
     echo "Keyfile not found, using backup header..."
-    cryptsetup luksHeaderRestore /dev/nvme0n1p5 \
-        --header-backup-file /recovery/backup/luks-header-backup.img
+    cryptsetup luksHeaderRestore /dev/nvme0n1p5 --header-backup-file /recovery/backup/luks-header-backup.img
     cryptsetup open /dev/nvme0n1p5 cryptdata
 fi
 
@@ -277,7 +275,7 @@ This partition contains:
 - Recovery scripts (scripts/)
 - Emergency tools
 
-|!| LUKS CONFIGURATION:
+LUKS CONFIGURATION:
 - If using rescue USB: ensure kernel 5.9+ or decrypt will FAIL
 - Ubuntu 22.04+ live USB recommended (kernel 6.2+)
 
@@ -288,8 +286,7 @@ DISASTER RECOVERY STEPS:
 4. Mount filesystems as needed
 
 LUKS HEADER RESTORE:
-cryptsetup luksHeaderRestore /dev/nvme0n1p5 \\
-    --header-backup-file /mnt/backup/luks-header-backup.img
+cryptsetup luksHeaderRestore /dev/nvme0n1p5 --header-backup-file /mnt/backup/luks-header-backup.img
 
 LUKS DIAGNOSTICS:
 # Show LUKS header info and key slots
@@ -300,7 +297,7 @@ cryptsetup luksDump /dev/nvme0n1p5 | grep "sector size"
 # Output: Payload sector size:     4096
 
 # Check which key slots are active
-# Slot 0: Original passphraseB
+# Slot 0: Original passphrase
 # Slot 1: Keyfile (/boot/luks-keyfile)
 
 PASSPHRASE RECOVERY:
