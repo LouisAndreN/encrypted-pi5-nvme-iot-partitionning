@@ -844,16 +844,16 @@ sudo chmod +x /mnt/nvme_root/opt/verify-boot.sh
 sync
 
 # Clean chroot mounts
-sudo umount -l /mnt/nvme_root/proc 2>/dev/null
-sudo umount -l /mnt/nvme_root/sys 2>/dev/null
-sudo umount -l /mnt/nvme_root/dev/pts 2>/dev/null
-sudo umount -l /mnt/nvme_root/dev 2>/dev/null
-sudo umount -l /mnt/nvme_root/run 2>/dev/null
-sudo umount -l /mnt/nvme_root/tmp 2>/dev/null
+sudo umount -lR /mnt/nvme_root/proc 2>/dev/null
+sudo umount -lR /mnt/nvme_root/sys 2>/dev/null
+sudo umount -lR /mnt/nvme_root/dev/pts 2>/dev/null
+sudo umount -lR /mnt/nvme_root/dev 2>/dev/null
+sudo umount -lR /mnt/nvme_root/run 2>/dev/null
+sudo umount -lR /mnt/nvme_root/tmp 2>/dev/null
 
 # Unmount
-sudo umount -l /mnt/nvme_boot 2>/dev/null
-sudo umount -l /mnt/nvme_recovery 2>/dev/null
+sudo umount -lR /mnt/nvme_boot 2>/dev/null
+sudo umount -lR /mnt/nvme_recovery 2>/dev/null
 sudo umount -lR /mnt/nvme_root 2>/dev/null
 
 
