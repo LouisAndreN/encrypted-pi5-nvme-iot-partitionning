@@ -4,7 +4,7 @@ This project provides an optimized configuration and partitionning system on a 1
 It uses Ubuntu Server LTS 24.04.3 and tested on NVMe Micron 2200. After running write and read test speed, I get the following performances :
 
 - read: IOPS=3162, BW=395MiB/s (414MB/s) 
-- write: IOPS=, BW= ()
+- write: IOPS=2992, BW=374MiB/s (392MB/s)
 
 PCIe Gen2 Bottleneck
 Despite Pi5 forcing PCIe Gen3, adapter path limits negotiation to Gen2.
