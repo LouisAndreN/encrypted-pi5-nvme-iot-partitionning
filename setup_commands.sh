@@ -868,7 +868,8 @@ sudo poweroff
 #    - dmesg | grep -iE 'nvme|pcie|aer|error|crc|timeout|reset|luks|crypt' => no PCIe errors ?
 #    - cryptsetup status cryptdata => sector_size=4096 and active ?
 #    - fio to validate performances :textsudo apt install fio
-#        fio --name=seqread --ioengine=libaio --direct=1 --rw=read --bs=128k --numjobs=1 --iodepth=32 --size=4g --runtime=30 --group_reporting => ~700–900 MB/s for Gen3
+#        fio --name=seqread --ioengine=libaio --direct=1 --rw=read --bs=128k --numjobs=1 --iodepth=32 --size=4g --runtime=30 --group_reporting => ~700–900 MB/s for Gen3, => ~300–400 MB/s for Gen2
+#        fio --name=seqwrite --ioengine=libaio --direct=1 --rw=write --bs=128k --numjobs=1 --iodepth=32 --size=4g --runtime=30 --group_reporting => ~700–900 MB/s for Gen3 => ~300–400 MB/s for Gen2
 
 # Cron btrfs maintenance
 sudo tee /etc/cron.weekly/btrfs-maintenance > /dev/null <<'EOF'
