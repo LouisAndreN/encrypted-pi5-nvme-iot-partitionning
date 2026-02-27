@@ -6,7 +6,8 @@ It uses Ubuntu Server LTS 24.04.3 and tested on NVMe Micron 2200. After running 
 - read: IOPS=3162, BW=395MiB/s (414MB/s) 
 - write: IOPS=, BW= ()
 
-Even if PCIe set on Gen3, the read and write performance limitations come from the SunFounder Dual NVMe Raft, which limit it to performances of Gen2.
+PCIe Gen2 Bottleneck
+Despite Pi5 forcing PCIe Gen3, adapter path limits negotiation to Gen2.
 
 The script `/opt/verify-boot.sh` is generated automatically during the installation and launched manually after the first boot on NVMe to validate all mounts LUKS, LVM, FS tuning, TRIM, etc.
 
