@@ -1,11 +1,18 @@
-UUID=$BOOT_UUID  /boot/firmware  vfat  defaults  0  2
-UUID=$ROOT_UUID  /  ext4  defaults,noatime  0  1
+UUID=$BOOT_UUID       /boot/firmware          vfat    defaults                          0 2
+UUID=$ROOT_UUID       /                       ext4    defaults,noatime                  0 1
+/dev/mapper/swap      none                    swap    sw,pri=-2                         0 0
+UUID=$RECOVERY_UUID   /recovery               ext4    defaults,noatime                  0 2
 
-UUID=$VAR_UUID  /var  ext4  defaults,noatime,barrier=1  0  2
-UUID=$CONTAINERS_UUID  /var/lib/containers  ext4  defaults,noatime,nodiratime,data=ordered  0  2
+/dev/vg-main/lv-var       /var                    ext4    defaults,noatime,nodiratime       0 2
+/dev/vg-main/lv-logs      /var/log                ext4    defaults,noatime,nodiratime       0 2
+/dev/vg-main/lv-influxdb  /var/lib/influxdb       xfs     defaults,noatime,allocsize=16m,inode64  0 2
+/dev/vg-main/lv-containers /var/lib/containers    xfs     defaults,noatime,allocsize=16m  0 2
+/dev/vg-main/lv-grafana   /var/lib/grafana        ext4    defaults,noatime,nodiratime       0 2
+/dev/vg-main/lv-ml-models /mnt/ml-models          xfs     defaults,noatime,allocsize=16m  0 2
+/dev/vg-main/lv-ml-cache  /mnt/ml-cache           xfs     defaults,noatime,allocsize=16m  0 2
+/dev/vg-main/lv-cloud-sync /mnt/cloud-sync        xfs     defaults,noatime,allocsize=64m,inode64  0 2
+/dev/vg-main/lv-scratch   /mnt/scratch            xfs     defaults,noatime,allocsize=16m,logbsize=256k,largeio  0 2
+/dev/vg-main/lv-data      /mnt/data               btrfs   defaults,noatime,compress=zstd:3,space_cache=v2,subvol=@iot-hot  0 2
 
-UUID=$ML_DATA_UUID  /mnt/ml-data  ext4  defaults,noatime,nodiratime,data=writeback,commit=30  0  2
-UUID=$SCRATCH_UUID  /mnt/scratch  xfs  defaults,noatime,nodiratime,allocsize=16m,largeio  0  2
-
-UUID=$DATA_UUID  /mnt/data  btrfs  defaults,noatime,compress=zstd:3,space_cache=v2,autodefrag,commit=120  0  2
-tmpfs  /tmp  tmpfs  defaults,noatime,nosuid,nodev,size=2G  0  0
+tmpfs                     /tmp                    tmpfs   defaults,noatime,nosuid,nodev,size=2G  0 0
+tmpfs                     /var/tmp                tmpfs   defaults,noatime,nosuid,nodev,size=1G  0 0
